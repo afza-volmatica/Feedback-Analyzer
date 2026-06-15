@@ -1,33 +1,49 @@
 import pandas as pd
+from pathlib import Path
 
 from app.database.chroma_db import collection
 from app.services.embedding_service import (
     generate_embedding
 )
 
+# Project Root
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+# CSV Path
+CSV_PATH = BASE_DIR / "data" / "Amazon_Reviews.csv"
+
 
 def load_reviews():
 
+    # Don't reload if already populated
     if collection.count() > 0:
         print("Reviews already loaded.")
         return
 
+    # Check file exists
+    if not CSV_PATH.exists():
+        print(f"CSV file not found: {CSV_PATH}")
+        return
+
     df = pd.read_csv(
-        "data/Amazon_Reviews.csv",
+        CSV_PATH,
         engine="python",
         on_bad_lines="skip"
     )
 
-    # For testing only
+    # Optional: limit for testing
     df = df.head(100)
 
     for idx, row in df.iterrows():
 
         review_text = str(
-            row["Review Text"]
+            row.get("Review Text", "")
         )
 
-        if review_text == "nan":
+        if (
+            review_text == "nan"
+            or review_text.strip() == ""
+        ):
             continue
 
         collection.add(
@@ -41,7 +57,7 @@ def load_reviews():
         )
 
     print(
-        f"Loaded {len(df)} reviews."
+        f"Loaded {collection.count()} reviews."
     )
 
 
