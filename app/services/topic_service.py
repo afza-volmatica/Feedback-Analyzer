@@ -8,7 +8,7 @@ from app.services.topic_classifier import (
 def get_topics():
 
     df = pd.read_csv(
-        "data/amazon_reviews.csv",
+        "data/Amazon_Reviews.csv",
         engine="python",
         on_bad_lines="skip"
     )
@@ -38,7 +38,7 @@ def get_topics():
 def topic_distribution():
 
     df = pd.read_csv(
-        "data/amazon_reviews.csv",
+        "data/Amazon_Reviews.csv",
         engine="python",
         on_bad_lines="skip"
     )
