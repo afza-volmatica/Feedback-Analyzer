@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+pandas
+numpy
+sentence-transformers
+chromadb
+python-multipart
+pytest
+httpx
