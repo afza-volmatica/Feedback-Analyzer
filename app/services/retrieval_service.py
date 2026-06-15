@@ -13,7 +13,7 @@ def load_reviews():
         return
 
     df = pd.read_csv(
-        "data/amazon_reviews.csv",
+        "data/Amazon_Reviews.csv",
         engine="python",
         on_bad_lines="skip"
     )
